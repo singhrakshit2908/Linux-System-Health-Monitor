@@ -41,3 +41,32 @@ IDLE_DIFF=$((IDLE2 - IDLE1))
 CPU_USAGE=$((100 * (TOTAL_DIFF - IDLE_DIFF) / TOTAL_DIFF))
 
 echo "CPU Usage: ${CPU_USAGE}%"
+
+echo
+echo "Memory Information"
+echo "--------------------------------------"
+
+MEM_TOTAL=$(free -m | awk '/^Mem:/ {print $2}')
+MEM_USED=$(free -m | awk '/^Mem:/ {print $3}')
+MEM_AVAILABLE=$(free -m | awk '/^Mem:/ {print $7}')
+
+MEM_USAGE=$((100 * (MEM_TOTAL - MEM_AVAILABLE) / MEM_TOTAL))
+
+echo "Total Memory:     ${MEM_TOTAL} MB"
+echo "Used Memory:      ${MEM_USED} MB"
+echo "Available Memory: ${MEM_AVAILABLE} MB"
+echo "Memory Usage:     ${MEM_USAGE}%"
+echo
+echo "Disk Information"
+echo "--------------------------------------"
+
+DISK_TOTAL=$(df -h / | awk 'NR==2 {print $2}')
+DISK_USED=$(df -h / | awk 'NR==2 {print $3}')
+DISK_AVAILABLE=$(df -h / | awk 'NR==2 {print $4}')
+DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}')
+
+echo "Total Disk Space:      $DISK_TOTAL"
+echo "Used Disk Space:       $DISK_USED"
+echo "Available Disk Space:  $DISK_AVAILABLE"
+echo "Disk Usage:            $DISK_USAGE"
+
